@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lazada Open Platform API Guide"
+  short_description: "Answer Lazada Open Platform API structure questions from bundled references first."
+  default_prompt: "Use $lazada-openapi-guide to confirm this Lazada API structure from references/api/ first."

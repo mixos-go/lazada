@@ -1,0 +1,446 @@
+---
+title: QueryReverseOrderForMCL
+category: FBL API
+api_name: QueryReverseOrderForMCL
+method: GET
+path: /fbl/reverse_order/get
+---
+
+**Category:** FBL API
+**API:** QueryReverseOrderForMCL
+
+**Method:** GET
+**HTTP Path:** /fbl/reverse_order/get
+
+## API Description
+Query Reverse Order for MCL
+
+## Common Parameters
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| app_key | String | Yes | Unique app ID issued by LAZADA Open Platform console when you apply for an app category |
+| timestamp | String | Yes | The time stamp of the request e.g. 1517820392000 (which translates to 5 February 2018 08:46:32) with less than 7200s difference from UTC time |
+| access_token | String | Yes | API interface call credentials |
+| sign_method | String | Yes | The HMAC hash algorithm you are using to calculate your signature |
+| sign | String | Yes | Part of the authentication process that is used for identifying and verifying who is sending a request (click <a target='_blank' href='https://open.lazada.com/apps/doc/doc?nodeId=10450&docId=108068'>here</a> for details) |
+
+## Request Parameters
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| sales_order_number | String | Yes | Sales order number from platform |
+
+## Response Parameters
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| success | Boolean | No | Whether Success |
+| error_message | String | No | Error Message |
+| data | Object[] | No | Result Data |
+| data.sales_order_number | String | No | Sales order number from platform |
+| data.create_time | String | No | Reverse order create time in ISO8601 format |
+| data.type | String | No | Reverse order type |
+| data.status | String | No | Reverse order status |
+| data.items | Object[] | No | Items in reverse order |
+| data.items.fulfillment_sku_id | Number | No | Fulfillment sku id |
+| data.items.fulfillment_sku_code | String | No | Fulfillment sku code |
+| data.items.quantity | Number | No | Item number |
+
+## Endpoints (by region)
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| Vietnam |  |  | https://api.lazada.vn/rest |
+| Singapore |  |  | https://api.lazada.sg/rest |
+| Philippines |  |  | https://api.lazada.com.ph/rest |
+| Malaysia |  |  | https://api.lazada.com.my/rest |
+| Thailand |  |  | https://api.lazada.co.th/rest |
+| Indonesia |  |  | https://api.lazada.co.id/rest |
+
+## Examples
+```json
+{
+  "serviceParamHttpType": "3",
+  "serviceParamType": "1",
+  "hitLog": false,
+  "defaultValue": "",
+  "previewDemo": "",
+  "maxSize": "",
+  "paramName": "success",
+  "demo": "true",
+  "required": false,
+  "paramType": "3",
+  "mappingValue": "",
+  "minValue": null,
+  "dataMaskUrl": "",
+  "enumValue": "",
+  "children": [],
+  "maxListSize": "",
+  "id": 61490,
+  "apiId": "2218",
+  "docVisible": false,
+  "paramOrder": "",
+  "moreLimit": "",
+  "maxValue": null,
+  "paramFrom": "2",
+  "sensitiveDataTag": "",
+  "maskField": "",
+  "serviceParamName": "success",
+  "parentId": 0,
+  "dataSecurityLevel": "C2",
+  "serviceParamPath": "",
+  "mappingType": "1",
+  "regexExpression": "",
+  "constantValue": "",
+  "desc": "Whether Success"
+}
+{
+  "serviceParamHttpType": "3",
+  "serviceParamType": "1",
+  "hitLog": false,
+  "defaultValue": "",
+  "previewDemo": "",
+  "maxSize": "",
+  "paramName": "error_message",
+  "demo": "Internal system error",
+  "required": false,
+  "paramType": "1",
+  "mappingValue": "",
+  "minValue": null,
+  "dataMaskUrl": "",
+  "enumValue": "",
+  "children": [],
+  "maxListSize": "",
+  "id": 61491,
+  "apiId": "2218",
+  "docVisible": false,
+  "paramOrder": "",
+  "moreLimit": "",
+  "maxValue": null,
+  "paramFrom": "2",
+  "sensitiveDataTag": "",
+  "maskField": "",
+  "serviceParamName": "error_message",
+  "parentId": 0,
+  "dataSecurityLevel": "C2",
+  "serviceParamPath": "",
+  "mappingType": "1",
+  "regexExpression": "",
+  "constantValue": "",
+  "desc": "Error Message"
+}
+{
+  "serviceParamHttpType": "3",
+  "serviceParamType": "3",
+  "hitLog": false,
+  "defaultValue": "",
+  "previewDemo": "",
+  "maxSize": "",
+  "paramName": "data",
+  "demo": "[{}]",
+  "required": false,
+  "paramType": "9",
+  "mappingValue": "",
+  "minValue": null,
+  "dataMaskUrl": "",
+  "enumValue": "",
+  "children": [
+    {
+      "serviceParamHttpType": "3",
+      "serviceParamType": "1",
+      "hitLog": false,
+      "defaultValue": "",
+      "previewDemo": "",
+      "maxSize": "",
+      "paramName": "sales_order_number",
+      "demo": "123456",
+      "required": false,
+      "paramType": "1",
+      "mappingValue": "",
+      "minValue": null,
+      "dataMaskUrl": "",
+      "enumValue": "",
+      "children": [],
+      "maxListSize": "",
+      "id": 61493,
+      "apiId": "2218",
+      "docVisible": false,
+      "paramOrder": "",
+      "moreLimit": "",
+      "maxValue": null,
+      "paramFrom": "2",
+      "sensitiveDataTag": "",
+      "maskField": "",
+      "serviceParamName": "sales_order_number",
+      "parentId": 61492,
+      "dataSecurityLevel": "C2",
+      "serviceParamPath": "",
+      "mappingType": "1",
+      "regexExpression": "",
+      "constantValue": "",
+      "desc": "Sales order number from platform"
+    },
+    {
+      "serviceParamHttpType": "3",
+      "serviceParamType": "1",
+      "hitLog": false,
+      "defaultValue": "",
+      "previewDemo": "",
+      "maxSize": "",
+      "paramName": "create_time",
+      "demo": "2021-10-27T03:07:00.000Z",
+      "required": false,
+      "paramType": "1",
+      "mappingValue": "",
+      "minValue": null,
+      "dataMaskUrl": "",
+      "enumValue": "",
+      "children": [],
+      "maxListSize": "",
+      "id": 61494,
+      "apiId": "2218",
+      "docVisible": false,
+      "paramOrder": "",
+      "moreLimit": "",
+      "maxValue": null,
+      "paramFrom": "2",
+      "sensitiveDataTag": "",
+      "maskField": "",
+      "serviceParamName": "create_time",
+      "parentId": 61492,
+      "dataSecurityLevel": "C2",
+      "serviceParamPath": "",
+      "mappingType": "1",
+      "regexExpression": "",
+      "constantValue": "",
+      "desc": "Reverse order create time in ISO8601 format"
+    },
+    {
+      "serviceParamHttpType": "3",
+      "serviceParamType": "1",
+      "hitLog": false,
+      "defaultValue": "",
+      "previewDemo": "",
+      "maxSize": "",
+      "paramName": "type",
+      "demo": "failed_delivery, customer_return",
+      "required": false,
+      "paramType": "1",
+      "mappingValue": "",
+      "minValue": null,
+      "dataMaskUrl": "",
+      "enumValue": "",
+      "children": [],
+      "maxListSize": "",
+      "id": 61495,
+      "apiId": "2218",
+      "docVisible": false,
+      "paramOrder": "",
+      "moreLimit": "",
+      "maxValue": null,
+      "paramFrom": "2",
+      "sensitiveDataTag": "",
+      "maskField": "",
+      "serviceParamName": "type",
+      "parentId": 61492,
+      "dataSecurityLevel": "C2",
+      "serviceParamPath": "",
+      "mappingType": "1",
+      "regexExpression": "",
+      "constantValue": "",
+      "desc": "Reverse order type"
+    },
+    {
+      "serviceParamHttpType": "3",
+      "serviceParamType": "1",
+      "hitLog": false,
+      "defaultValue": "",
+      "previewDemo": "",
+      "maxSize": "",
+      "paramName": "status",
+      "demo": "request_created, request_accepted, completed_reinbounded, request_cancelled",
+      "required": false,
+      "paramType": "1",
+      "mappingValue": "",
+      "minValue": null,
+      "dataMaskUrl": "",
+      "enumValue": "",
+      "children": [],
+      "maxListSize": "",
+      "id": 61496,
+      "apiId": "2218",
+      "docVisible": false,
+      "paramOrder": "",
+      "moreLimit": "",
+      "maxValue": null,
+      "paramFrom": "2",
+      "sensitiveDataTag": "",
+      "maskField": "",
+      "serviceParamName": "status",
+      "parentId": 61492,
+      "dataSecurityLevel": "C2",
+      "serviceParamPath": "",
+      "mappingType": "1",
+      "regexExpression": "",
+      "constantValue": "",
+      "desc": "Reverse order status"
+    },
+    {
+      "serviceParamHttpType": "3",
+      "serviceParamType": "3",
+      "hitLog": false,
+      "defaultValue": "",
+      "previewDemo": "",
+      "maxSize": "",
+      "paramName": "items",
+      "demo": "[{}]",
+      "required": false,
+      "paramType": "9",
+      "mappingValue": "",
+      "minValue": null,
+      "dataMaskUrl": "",
+      "enumValue": "",
+      "children": [
+        {
+          "serviceParamHttpType": "3",
+          "serviceParamType": "1",
+          "hitLog": false,
+          "defaultValue": "",
+          "previewDemo": "",
+          "maxSize": "",
+          "paramName": "fulfillment_sku_id",
+          "demo": "12345678",
+          "required": false,
+          "paramType": "2",
+          "mappingValue": "",
+          "minValue": null,
+          "dataMaskUrl": "",
+          "enumValue": "",
+          "children": [],
+          "maxListSize": "",
+          "id": 61498,
+          "apiId": "2218",
+          "docVisible": false,
+          "paramOrder": "",
+          "moreLimit": "",
+          "maxValue": null,
+          "paramFrom": "2",
+          "sensitiveDataTag": "",
+          "maskField": "",
+          "serviceParamName": "fulfillment_sku_id",
+          "parentId": 61497,
+          "dataSecurityLevel": "C2",
+          "serviceParamPath": "",
+          "mappingType": "1",
+          "regexExpression": "",
+          "constantValue": "",
+          "desc": "Fulfillment sku id"
+        },
+        {
+          "serviceParamHttpType": "3",
+          "serviceParamType": "1",
+          "hitLog": false,
+          "defaultValue": "",
+          "previewDemo": "",
+          "maxSize": "",
+          "paramName": "fulfillment_sku_code",
+          "demo": "12345678_PH-12345678",
+          "required": false,
+          "paramType": "1",
+          "mappingValue": "",
+          "minValue": null,
+          "dataMaskUrl": "",
+          "enumValue": "",
+          "children": [],
+          "maxListSize": "",
+          "id": 61499,
+          "apiId": "2218",
+          "docVisible": false,
+          "paramOrder": "",
+          "moreLimit": "",
+          "maxValue": null,
+          "paramFrom": "2",
+          "sensitiveDataTag": "",
+          "maskField": "",
+          "serviceParamName": "fulfillment_sku_code",
+          "parentId": 61497,
+          "dataSecurityLevel": "C2",
+          "serviceParamPath": "",
+          "mappingType": "1",
+          "regexExpression": "",
+          "constantValue": "",
+          "desc": "Fulfillment sku code"
+        },
+        {
+          "serviceParamHttpType": "3",
+          "serviceParamType": "1",
+          "hitLog": false,
+          "defaultValue": "",
+          "previewDemo": "",
+          "maxSize": "",
+          "paramName": "quantity",
+          "demo": "1",
+          "required": false,
+          "paramType": "2",
+          "mappingValue": "",
+          "minValue": null,
+          "dataMaskUrl": "",
+          "enumValue": "",
+          "children": [],
+          "maxListSize": "",
+          "id": 61500,
+          "apiId": "2218",
+          "docVisible": false,
+          "paramOrder": "",
+          "moreLimit": "",
+          "maxValue": null,
+          "paramFrom": "2",
+          "sensitiveDataTag": "",
+          "maskField": "",
+          "serviceParamName": "quantity",
+          "parentId": 61497,
+          "dataSecurityLevel": "C2",
+          "serviceParamPath": "",
+          "mappingType": "1",
+          "regexExpression": "",
+          "constantValue": "",
+          "desc": "Item number"
+        }
+      ],
+      "maxListSize": "",
+      "id": 61497,
+      "apiId": "2218",
+      "docVisible": false,
+      "paramOrder": "",
+      "moreLimit": "",
+      "maxValue": null,
+      "paramFrom": "2",
+      "sensitiveDataTag": "",
+      "maskField": "",
+      "serviceParamName": "items",
+      "parentId": 61492,
+      "dataSecurityLevel": "C2",
+      "serviceParamPath": "",
+      "mappingType": "1",
+      "regexExpression": "",
+      "constantValue": "",
+      "desc": "Items in reverse order"
+    }
+  ],
+  "maxListSize": "",
+  "id": 61492,
+  "apiId": "2218",
+  "docVisible": false,
+  "paramOrder": "",
+  "moreLimit": "",
+  "maxValue": null,
+  "paramFrom": "2",
+  "sensitiveDataTag": "",
+  "maskField": "",
+  "serviceParamName": "data",
+  "parentId": 0,
+  "dataSecurityLevel": "C2",
+  "serviceParamPath": "",
+  "mappingType": "1",
+  "regexExpression": "",
+  "constantValue": "",
+  "desc": "Result Data"
+}
+```
