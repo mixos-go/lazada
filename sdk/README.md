@@ -75,6 +75,45 @@ const token = await exchangeAuthCode(
 // token.data.access_token -> masukkan ke Lazada(accessToken)
 ```
 
+> Catatan: access token Lazada **terikat region**. Satu `LazadaConnector` = satu region;
+> untuk multi-region buat connector terpisah per region.
+
+## Connector multi-seller (OAuth + auto-refresh)
+
+Untuk aplikasi yang mengelola banyak shop, pakai `LazadaConnector`
+(`src/connector/`). Satu instance, token disimpan per `shopId` di `TokenStore`:
+
+```ts
+import { createLazadaConnector, InMemoryTokenStore } from './connector'
+
+const connector = createLazadaConnector({
+  credentials: { app_key: 'YOUR_APP_KEY', app_secret: 'YOUR_APP_SECRET' },
+  redirectUri: 'https://yourapp/callback',
+  region: 'indonesia',             // access token terikat region → per connector
+  store: new InMemoryTokenStore(), // ganti dgn persisten store utk production
+})
+
+// 1. URL authorize (per region): shop_id & state disisipkan ke redirect_uri.
+const url = connector.buildAuthUrl('s12345', 'csrf-state')
+//    → https://auth.lazada.co.id/oauth/authorize?response_type=code&...
+
+// 2. Callback: exchange code → token (+ region) disimpan.
+const token = await connector.handleCallback('s12345', 'CODE_FROM_CALLBACK')
+
+// 3. Panggil API: access_token di-inject ke query + signing otomatis.
+const client = await connector.getClient('s12345')
+const res = await client.request(
+  { method: 'GET', path: '/orders/get', params: ['created_after', 'sort_by', 'limit'] },
+  { created_after: '2024-01-01T00:00:00+08:00', limit: 20 },
+)
+
+// 4. Auto-refresh: sebelum tiap request, bila expiresAt mendekat
+//    (< refreshThresholdMs, default 5 mnt) token di-refresh otomatis
+//    (single-flight); refresh_token single-use selalu disimpan yang baru.
+//    Manual: await connector.refresh('s12345')
+connector.listShopIds() // ['s12345', ...]
+```
+
 ## Struktur
 
 ```

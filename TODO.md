@@ -130,8 +130,9 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 ## Fase 5 — Docs & release
 
-- [ ] Update `sdk/README.md`: contoh OAuth flow multi-seller (+ region).
-- [ ] Bump version + publish ke GitHub Packages.
+- [x] Update `sdk/README.md`: contoh OAuth flow multi-seller (+ region; catatan token terikat
+      region).
+- [ ] Bump version + publish ke GitHub Packages (ditunda: butuh kredensial publish).
 
 ---
 

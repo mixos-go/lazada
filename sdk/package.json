@@ -1,6 +1,6 @@
 {
   "name": "@mixos-go/lazada-sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generated TypeScript SDK for the Lazada Open Platform API (372 APIs / 32 categories)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
