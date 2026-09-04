@@ -1,7 +1,6 @@
 # lazada — Lazada Open Platform API skill
 
-Skill mandiri ala pola `@tts-open-toolkit`/`tts-openapi-*` dari TikTok Shop, tapi
-untuk Lazada Open Platform. Struktur identik dengan skill toolkit:
+Skill mandiri (standalone) untuk Lazada Open Platform. Struktur identik dengan skill toolkit:
 
 ```
 lazada/
