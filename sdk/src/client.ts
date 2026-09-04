@@ -72,6 +72,11 @@ export interface LazadaClientConfig {
   fetch?: typeof fetch
   /** Response ttl in ms until throwing on non-2xx (default false). */
   throwOnHttpError?: boolean
+  /**
+   * Optional hook invoked at the start of every `request()`. The connector uses
+   * this to check token expiry and auto-refresh (single-flight) before a call.
+   */
+  beforeRequest?: () => Promise<void>
 }
 
 /**
@@ -84,9 +89,10 @@ export interface LazadaClientConfig {
 export class LazadaClient {
   readonly region: LazadaRegion | string
   private readonly credentials: LazadaCredentials
-  private readonly defaults: { accessToken?: string }
+  private defaults: { accessToken?: string }
   private readonly fetchImpl: typeof fetch
   private readonly throwOnHttpError: boolean
+  private readonly beforeRequest?: () => Promise<void>
 
   constructor(cfg: LazadaClientConfig) {
     this.credentials = cfg.credentials
@@ -94,11 +100,20 @@ export class LazadaClient {
     this.defaults = { accessToken: cfg.accessToken }
     this.fetchImpl = cfg.fetch ?? (globalThis as any).fetch
     this.throwOnHttpError = cfg.throwOnHttpError ?? false
+    this.beforeRequest = cfg.beforeRequest
     if (typeof this.fetchImpl !== 'function') {
       throw new Error(
         'Fetch is not available. Use Node 18+ or supply a `fetch` implementation in the client config.',
       )
     }
+  }
+
+  /**
+   * Update the default access_token at runtime (used by the connector after an
+   * auto-refresh so subsequent calls sign with the fresh token).
+   */
+  updateToken(accessToken?: string): void {
+    this.defaults = { accessToken }
   }
 
   /**
@@ -113,6 +128,7 @@ export class LazadaClient {
     params: Record<string, unknown>,
     opts: LazadaRequestOptions = {},
   ): Promise<any> {
+    await this.beforeRequest?.()
     const region = (opts.region ?? this.region).toLowerCase() as LazadaRegion
     const host = resolveHost(region)
     const accessToken = opts.access_token ?? this.defaults.accessToken
@@ -195,7 +211,7 @@ export class LazadaClient {
 export async function exchangeAuthCode(
   credentials: LazadaCredentials,
   code: string,
-  opts: { region?: LazadaRegion | string } = {},
+  opts: { region?: LazadaRegion | string; fetch?: typeof fetch } = {},
 ): Promise<any> {
   const region = (opts.region ?? 'singapore').toLowerCase() as LazadaRegion
   const host = resolveHost(region)
@@ -213,7 +229,8 @@ export async function exchangeAuthCode(
   const q = new URLSearchParams()
   for (const [k, v] of Object.entries(params)) q.set(k, String(v))
   q.set('sign', sign(credentials.app_secret, '/auth/token/create', { ...params, sign: '' }))
-  const res = await fetch(`${end}?${q.toString()}`, { method: 'POST' })
+  const fn = opts.fetch ?? (globalThis as any).fetch
+  const res = await fn(`${end}?${q.toString()}`, { method: 'POST' })
   const text = await res.text()
   let json: any
   try {

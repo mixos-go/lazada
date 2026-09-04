@@ -95,13 +95,17 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 ## Fase 2 — Token injection & auto-refresh runtime
 
-- [ ] **`exchangeAuthCode` bypass `LazadaClient.fetch`** (`src/client.ts:195` pakai `fetch` global):
-      rapikan agar konsisten dgn transport client (custom fetch/proxy), atau biarkan & catat.
-- [ ] Riset & putuskan pendekatan injection: `LazadaClient.defaults.accessToken` `private readonly` →
-      pilih (a) konstruksi ulang client, atau (b) setter baru/`updateToken`, atau (c) getClient dari
-      store tiap call. Dokumentasikan keputusan.
-- [ ] Implement auto-refresh: cek `expiresAt` sebelum call; refresh jika `< threshold`.
-      Single-flight agar refresh tidak dobel saat paralel.
+- [x] **`exchangeAuthCode` konsisten dgn transport client**: `exchangeAuthCode` (`src/client.ts:195`)
+      kini terima `opts.fetch` (default `globalThis.fetch`) — connector meneruskan `fetchImpl`.
+      Tidak lagi hardcode `fetch` global; tetap pakai signing Lazop yang sama dengan `LazadaClient`.
+- [x] **Keputusan injection (b)**: `LazadaClient` (src/client.ts) ditambah optional hook
+      `beforeRequest` (dipanggil di awal tiap `request`) + `updateToken(accessToken?)` (field
+      `defaults` diubah mutable). Additif, non-breaking; per-call `opts.access_token` tetap didukung.
+- [x] Implement auto-refresh: `beforeRequest` cek `expiresAt` di store; bila
+      `expiresAt - now < refreshThresholdMs` → `refresh(shopId)` (pakai
+      `system.refreshAccessToken`) lalu `client.updateToken(...)`. Terverifikasi manual:
+      3 request paralel saat expiry mendekat → refresh 1x, 3 sukses, store ter-update.
+- [x] Race / single-flight: `Map<shopId, Promise<TokenSet>>` `refreshing` + `.finally()` cleanup.
 
 ## Fase 3 — Multi-seller & multi-region
 
