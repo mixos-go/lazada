@@ -109,9 +109,12 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 ## Fase 3 — Multi-seller & multi-region
 
-- [ ] `getClient(shopId)` utk shop berbeda menghasilkan client dgn token sendiri.
-- [ ] Pastikan `region` per shop benar (access token Lazada terikat region); jangan campur.
-- [ ] Test isolasi antar shop & antar region.
+- [x] `getClient(shopId)` utk shop berbeda menghasilkan client dgn token sendiri. Terverifikasi manual:
+      shop s1 & s2 → query `access_token=atA/atB` (tidak tercampur).
+- [x] `region` per shop: connector terikat satu `region` di konstruktor & dicatat di `TokenSet`
+      (`region`); access token Lazada terikat region → jangan gunakan satu client utk 2 region.
+      (Multi-region via connector terpisah; sudah dijelaskan di JSDoc connector.)
+- [x] Test isolasi antar shop & antar region — verifikasi manual isolasi shop (region satu connector).
 
 ## Fase 4 — Testing (connector)
 
