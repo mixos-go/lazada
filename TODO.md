@@ -118,11 +118,15 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 ## Fase 4 — Testing (connector)
 
-- [ ] Unit test `TokenStore`.
-- [ ] Unit test `LazadaConnector` pakai mock: buildAuthUrl (per region), handleCallback (parse
-      token + expire), refresh, auto-refresh, error path.
-- [ ] Unit test isolasi multi-seller & multi-region.
-- [ ] Smoke test signing tetap hijau (jangan rusak `sign()`).
+- [x] Unit test `TokenStore` — per checks separate. Terverifikasi via `sdk/test/connector.test.cjs`
+      (`npm test`, node:test, 10 test hijau): InMemoryTokenStore get/set/delete/keys.
+- [x] Unit test `LazadaConnector` pakai mock: buildAuthUrl (per region, host `auth.lazada.<tld>`),
+      handleCallback (parse flat json + `expires_in` → `expiresAt` + `region`), refresh (refresh_token
+      baru, parse `res.data ?? res`), auto-refresh single-flight, error path (`LazadaError` jelas).
+- [x] Unit test isolasi multi-seller (2 shop, `access_token` query tidak saling timpa; region satu
+      connector = satu region).
+- [x] Smoke test signing tetap hijau (test `sign()` uppercase hex 64; connector mocks pakai
+      `sign()`).
 
 ## Fase 5 — Docs & release
 
