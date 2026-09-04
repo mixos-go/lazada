@@ -76,21 +76,22 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 ## Fase 1 — Connector core (struktur + contract)
 
-- [ ] `connector/types.ts` — `TokenSet`, `ConnectorConfig` sesuai kontrak; tambah field spesifik
-      Lazada (`region`, `sellerId` di `TokenSet`).
-- [ ] `connector/token-store.ts` — `interface TokenStore` + `InMemoryTokenStore`.
-- [ ] `connector/connector.ts` — class `LazadaConnector` (multi-seller):
-  - `buildAuthUrl(shopId, state?)` → pakai `buildAuthUrl()` yang ada di `src/auth.ts`
-    (per `region`).
+- [x] `connector/types.ts` — `TokenSet`, `LazadaConnectorConfig` sesuai kontrak; field spesifik
+      Lazada (`region` di `TokenSet`; `region` + `refreshThresholdMs` di config).
+- [x] `connector/token-store.ts` — `interface TokenStore` + `InMemoryTokenStore` (dengan `keys()`).
+- [x] `connector/connector.ts` — class `LazadaConnector` (multi-seller):
+  - `buildAuthUrl(shopId, state?)` → pakai `buildAuthUrl()` yang ada di `src/auth.ts` (per `region`);
+    `shopId` & `state` disisipkan ke query redirect.
   - `handleCallback(shopId, code)` → panggil `exchangeAuthCode()` yang ada di `src/client.ts`,
-    parse jadi `TokenSet` (access_token, refresh_token, expiresAt dari `expires_in`), simpan.
-  - `refresh(shopId)` → pakai `system.refreshAccessToken()` (`src/generated/SystemAPI`);
-    update store.
-  - `getClient(shopId)` → return `LazadaClient` yang auto-inject token & auto-refresh (Fase 2).
-  - `listShopIds()`.
-- [ ] `connector/index.ts` — `createLazadaConnector(config)`.
-- [ ] Ekspor connector dari `src/index.ts`; aktifkan & pakai `LazadaTokenResult`
-      (`src/index.ts:200`, saat ini menganggur).
+    parse jadi `TokenSet` (flat response) + akses `LazadaTokenResult`, simpan ke store.
+  - `refresh(shopId)` → pakai `system.refreshAccessToken()` (`src/generated/SystemAPI`); parse
+    baik response terbungkus `data` maupun flat; update store.
+  - `getClient(shopId)` (async) → return `LazadaClient` ter-inject access token; auto-refresh
+    saat `expiresAt` mendekat di Fase 2.
+  - `listShopIds()` — union dari `keys()` store + Set internal connector.
+- [x] `connector/index.ts` — `createLazadaConnector(config)`.
+- [x] Ekspor connector dari `src/index.ts` (`export * from './connector'`); `LazadaTokenResult`
+      (`src/index.ts:200`) kini dipakai connector (type-import dari `../index`).
 
 ## Fase 2 — Token injection & auto-refresh runtime
 
