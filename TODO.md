@@ -132,7 +132,7 @@ Kelas `LazadaConnector` **multi-seller** (satu instance, banyak shop):
 
 - [x] Update `sdk/README.md`: contoh OAuth flow multi-seller (+ region; catatan token terikat
       region).
-- [ ] Bump version + publish ke GitHub Packages (ditunda: butuh kredensial publish).
+- [x] Bump version ke 1.1.0 + publish ke GitHub Packages (@mixos-go/lazada-sdk@1.1.0).
 
 ---
 
